@@ -1,90 +1,194 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThermoLab - Termómetro Digital</title>
+<meta name="theme-color" content="#080d19">
+<meta name="description" content="ThermoLab — Explora as escalas Celsius, Fahrenheit e Kelvin através de um termómetro digital interativo.">
+<title>ThermoLab — Digital Temperature Lab</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg: #080d19;
+    --panel: rgba(18, 27, 46, .78);
+    --border: rgba(148, 163, 184, .13);
+    --text: #f1f5f9;
+    --muted: #8997ad;
+    --cyan: #38d5f5;
+    --blue: #6485ff;
+    --purple: #a78bfa;
+    --green: #42e6ae;
+}
+
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
     min-height: 100vh;
-    font-family: Arial, sans-serif;
-    background: #101827;
-    color: white;
+    padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 25px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    background:
+        radial-gradient(ellipse at 15% 10%, rgba(56,213,245,.12), transparent 38%),
+        radial-gradient(ellipse at 90% 90%, rgba(103,87,255,.13), transparent 40%),
+        var(--bg);
 }
 
 .container {
     width: 100%;
-    max-width: 700px;
-    background: #1c293b;
-    padding: 35px;
-    border-radius: 20px;
+    max-width: 940px;
+}
+
+header {
     text-align: center;
+    margin-bottom: 32px;
+}
+
+.logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 17px;
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    background: rgba(255,255,255,.035);
+    color: var(--cyan);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+}
+
+.logo-icon {
+    font-size: 17px;
 }
 
 h1 {
-    margin-bottom: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(38px, 7vw, 62px);
+    font-weight: 700;
+    letter-spacing: -2.5px;
+    background: linear-gradient(110deg, #fff 20%, #9deeff 55%, #9c9aff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
 .subtitle {
-    color: #aab8ca;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 15px;
+}
+
+.main-card {
+    padding: 34px;
+    border-radius: 26px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 25px 80px rgba(0,0,0,.3);
+}
+
+.section-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 17px 20px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    transition: .25s;
+}
+
+.input-area:focus-within {
+    border-color: rgba(56,213,245,.6);
+    box-shadow: 0 0 0 4px rgba(56,213,245,.07);
 }
 
 input[type="number"] {
     width: 100%;
-    padding: 15px;
-    font-size: 20px;
+    min-width: 0;
+    background: transparent;
     border: none;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    outline: none;
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    opacity: .5;
+}
+
+.unit {
+    color: var(--cyan);
+    font-size: 19px;
+    font-weight: 700;
+}
+
+.range-info {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+    margin: 12px 0 9px;
 }
 
 input[type="range"] {
     width: 100%;
-    margin-bottom: 30px;
-    accent-color: #38bdf8;
+    cursor: pointer;
+    accent-color: var(--cyan);
 }
 
-.results {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.card {
-    background: #29394f;
-    padding: 20px 10px;
-    border-radius: 12px;
-}
-
-.card h2 {
-    color: #38bdf8;
-    font-size: 16px;
-}
-
-.value {
-    font-size: 22px;
-    font-weight: bold;
+.thermometer-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 0 25px;
 }
 
 .thermometer {
-    width: 35px;
-    height: 180px;
-    border: 4px solid white;
-    border-radius: 25px;
-    margin: 30px auto 10px;
     position: relative;
-    overflow: hidden;
+    width: 27px;
+    height: 155px;
+    border: 3px solid rgba(255,255,255,.75);
+    border-radius: 30px;
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 20px rgba(56,213,245,.08);
+}
+
+.thermometer::after {
+    content: "";
+    position: absolute;
+    width: 47px;
+    height: 47px;
+    bottom: -27px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 3px solid rgba(255,255,255,.75);
+    border-radius: 50%;
+    background: var(--temperature-color, #38d5f5);
+    box-shadow: 0 0 25px var(--temperature-glow, rgba(56,213,245,.3));
 }
 
 .level {
@@ -92,23 +196,145 @@ input[type="range"] {
     bottom: 0;
     width: 100%;
     height: 50%;
-    background: #ef4444;
-    transition: height 0.3s;
+    border-radius: 20px;
+    background: var(--temperature-color, #38d5f5);
+    transition: height .3s, background .3s;
 }
 
-.formula {
-    color: #aab8ca;
+.results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 15px;
+}
+
+.result-card {
+    padding: 22px 15px;
+    border-radius: 17px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,.035);
+    transition: transform .25s, border-color .25s;
+}
+
+.result-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(56,213,245,.4);
+}
+
+.result-card .name {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.result-card .value {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 3vw, 27px);
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.result-card.celsius .value { color: var(--cyan); }
+.result-card.fahrenheit .value { color: var(--purple); }
+.result-card.kelvin .value { color: var(--green); }
+
+.formula-box {
+    margin-top: 27px;
+    padding: 19px;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: rgba(255,255,255,.025);
+}
+
+.formula-title {
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.formulas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 25px;
+    color: #cbd5e1;
+    font-family: 'Space Grotesk', sans-serif;
     font-size: 13px;
-    margin-top: 25px;
 }
 
-@media (max-width: 500px) {
-    .container {
-        padding: 20px;
+.formulas span {
+    color: var(--cyan);
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 10px var(--green);
+}
+
+footer {
+    text-align: center;
+    margin-top: 25px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+footer strong {
+    color: #dce8f7;
+    font-weight: 700;
+}
+
+footer .authors {
+    color: var(--cyan);
+    font-weight: 600;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 25px 13px;
+    }
+
+    .main-card {
+        padding: 22px 17px;
     }
 
     .results {
         grid-template-columns: 1fr;
+    }
+
+    .result-card {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 17px;
+    }
+
+    .result-card .name {
+        margin: 0;
+    }
+
+    .thermometer-area {
+        padding: 30px 0;
+    }
+
+    .formulas {
+        flex-direction: column;
+        gap: 9px;
     }
 }
 </style>
@@ -118,88 +344,192 @@ input[type="range"] {
 
 <div class="container">
 
-    <h1>ThermoLab</h1>
-    <p class="subtitle">
-        Termómetro digital e conversor de escalas
-    </p>
-
-    <input
-        type="number"
-        id="temperature"
-        value="25"
-        step="0.1"
-    >
-
-    <input
-        type="range"
-        id="slider"
-        min="-100"
-        max="200"
-        value="25"
-    >
-
-    <div class="thermometer">
-        <div class="level" id="level"></div>
-    </div>
-
-    <div class="results">
-
-        <div class="card">
-            <h2>Celsius</h2>
-            <div class="value" id="celsius">25 °C</div>
+    <header>
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            Interactive Science Project
         </div>
 
-        <div class="card">
-            <h2>Fahrenheit</h2>
-            <div class="value" id="fahrenheit">77 °F</div>
+        <h1>ThermoLab</h1>
+
+        <p class="subtitle">
+            Explora as escalas de temperatura.
+            Uma experiência digital interativa.
+        </p>
+    </header>
+
+    <main class="main-card">
+
+        <div class="section-label">
+            Introduzir temperatura
         </div>
 
-        <div class="card">
-            <h2>Kelvin</h2>
-            <div class="value" id="kelvin">298.15 K</div>
+        <div class="input-area">
+            <input
+                type="number"
+                id="temperature"
+                value="25"
+                min="-273.15"
+                max="200"
+                step="0.1"
+                aria-label="Temperatura em graus Celsius"
+            >
+            <span class="unit">°C</span>
         </div>
 
-    </div>
+        <div class="range-info">
+            <span>−273,15 °C</span>
+            <span>200 °C</span>
+        </div>
 
-    <p class="formula">
-        °F = (°C × 1,8) + 32
-        <br>
-        K = °C + 273,15
-    </p>
+        <input
+            type="range"
+            id="slider"
+            min="-273.15"
+            max="200"
+            step="0.1"
+            value="25"
+            aria-label="Ajustar temperatura"
+        >
+
+        <div class="thermometer-area">
+            <div class="thermometer">
+                <div class="level" id="level"></div>
+            </div>
+        </div>
+
+        <div class="section-label">
+            Conversão de temperatura
+        </div>
+
+        <div class="results">
+
+            <div class="result-card celsius">
+                <div class="name">Celsius</div>
+                <div class="value" id="celsius">25 °C</div>
+            </div>
+
+            <div class="result-card fahrenheit">
+                <div class="name">Fahrenheit</div>
+                <div class="value" id="fahrenheit">77 °F</div>
+            </div>
+
+            <div class="result-card kelvin">
+                <div class="name">Kelvin</div>
+                <div class="value" id="kelvin">298,15 K</div>
+            </div>
+
+        </div>
+
+        <div class="formula-box">
+            <div class="formula-title">
+                FÓRMULAS UTILIZADAS
+            </div>
+
+            <div class="formulas">
+                <div>°F = (°C × 1,8) + 32</div>
+                <div>K = °C + 273,15</div>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            Conversões atualizadas automaticamente
+        </div>
+
+    </main>
+
+    <footer>
+        <div>Projeto de Física e Química</div>
+        <div>Desenvolvido por <span class="authors">Alexim &amp; Ruben</span></div>
+        <div>ThermoLab © 2026</div>
+    </footer>
 
 </div>
 
 <script>
 const temperature = document.getElementById("temperature");
 const slider = document.getElementById("slider");
+const level = document.getElementById("level");
+
+const MIN_TEMP = -273.15;
+const MAX_TEMP = 200;
+
+function formatNumber(value) {
+    return value.toFixed(2).replace(".", ",");
+}
 
 function updateThermometer(value) {
-
     const celsius = Number(value);
+
+    if (!Number.isFinite(celsius) ||
+        celsius < MIN_TEMP ||
+        celsius > MAX_TEMP) {
+        return;
+    }
+
     const fahrenheit = (celsius * 1.8) + 32;
     const kelvin = celsius + 273.15;
 
     document.getElementById("celsius").textContent =
-        celsius.toFixed(2) + " °C";
+        formatNumber(celsius) + " °C";
 
     document.getElementById("fahrenheit").textContent =
-        fahrenheit.toFixed(2) + " °F";
+        formatNumber(fahrenheit) + " °F";
 
     document.getElementById("kelvin").textContent =
-        kelvin.toFixed(2) + " K";
+        formatNumber(kelvin) + " K";
 
-    const percentage = Math.max(
-        0,
-        Math.min(100, ((celsius + 100) / 300) * 100)
+    const percentage =
+        ((celsius - MIN_TEMP) / (MAX_TEMP - MIN_TEMP)) * 100;
+
+    level.style.height = percentage + "%";
+
+    let color;
+
+    if (celsius < 0) {
+        color = "#38d5f5";
+    } else if (celsius < 35) {
+        color = "#42e6ae";
+    } else if (celsius < 100) {
+        color = "#ffad5c";
+    } else {
+        color = "#ff5d79";
+    }
+
+    document.documentElement.style.setProperty(
+        "--temperature-color", color
     );
 
-    document.getElementById("level").style.height =
-        percentage + "%";
+    document.documentElement.style.setProperty(
+        "--temperature-glow", color + "55"
+    );
 }
 
 temperature.addEventListener("input", () => {
-    slider.value = temperature.value;
-    updateThermometer(temperature.value);
+    if (temperature.value === "") return;
+
+    const value = Number(temperature.value);
+
+    if (value < MIN_TEMP || value > MAX_TEMP) return;
+
+    slider.value = value;
+    updateThermometer(value);
+});
+
+temperature.addEventListener("change", () => {
+    if (temperature.value === "") {
+        temperature.value = 25;
+    }
+
+    let value = Number(temperature.value);
+
+    value = Math.max(MIN_TEMP, Math.min(MAX_TEMP, value));
+
+    temperature.value = value;
+    slider.value = value;
+
+    updateThermometer(value);
 });
 
 slider.addEventListener("input", () => {
@@ -207,7 +537,7 @@ slider.addEventListener("input", () => {
     updateThermometer(slider.value);
 });
 
-updateThermometer(temperature.value);
+updateThermometer(25);
 </script>
 
 </body>
