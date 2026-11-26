@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThermoLab - Termómetro Digital</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #101827;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.container {
+    width: 100%;
+    max-width: 700px;
+    background: #1c293b;
+    padding: 35px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #aab8ca;
+    margin-bottom: 30px;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    border: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+input[type="range"] {
+    width: 100%;
+    margin-bottom: 30px;
+    accent-color: #38bdf8;
+}
+
+.results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.card {
+    background: #29394f;
+    padding: 20px 10px;
+    border-radius: 12px;
+}
+
+.card h2 {
+    color: #38bdf8;
+    font-size: 16px;
+}
+
+.value {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.thermometer {
+    width: 35px;
+    height: 180px;
+    border: 4px solid white;
+    border-radius: 25px;
+    margin: 30px auto 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.level {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background: #ef4444;
+    transition: height 0.3s;
+}
+
+.formula {
+    color: #aab8ca;
+    font-size: 13px;
+    margin-top: 25px;
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 20px;
+    }
+
+    .results {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>ThermoLab</h1>
+    <p class="subtitle">
+        Termómetro digital e conversor de escalas
+    </p>
+
+    <input
+        type="number"
+        id="temperature"
+        value="25"
+        step="0.1"
+    >
+
+    <input
+        type="range"
+        id="slider"
+        min="-100"
+        max="200"
+        value="25"
+    >
+
+    <div class="thermometer">
+        <div class="level" id="level"></div>
+    </div>
+
+    <div class="results">
+
+        <div class="card">
+            <h2>Celsius</h2>
+            <div class="value" id="celsius">25 °C</div>
+        </div>
+
+        <div class="card">
+            <h2>Fahrenheit</h2>
+            <div class="value" id="fahrenheit">77 °F</div>
+        </div>
+
+        <div class="card">
+            <h2>Kelvin</h2>
+            <div class="value" id="kelvin">298.15 K</div>
+        </div>
+
+    </div>
+
+    <p class="formula">
+        °F = (°C × 1,8) + 32
+        <br>
+        K = °C + 273,15
+    </p>
+
+</div>
+
+<script>
+const temperature = document.getElementById("temperature");
+const slider = document.getElementById("slider");
+
+function updateThermometer(value) {
+
+    const celsius = Number(value);
+    const fahrenheit = (celsius * 1.8) + 32;
+    const kelvin = celsius + 273.15;
+
+    document.getElementById("celsius").textContent =
+        celsius.toFixed(2) + " °C";
+
+    document.getElementById("fahrenheit").textContent =
+        fahrenheit.toFixed(2) + " °F";
+
+    document.getElementById("kelvin").textContent =
+        kelvin.toFixed(2) + " K";
+
+    const percentage = Math.max(
+        0,
+        Math.min(100, ((celsius + 100) / 300) * 100)
+    );
+
+    document.getElementById("level").style.height =
+        percentage + "%";
+}
+
+temperature.addEventListener("input", () => {
+    slider.value = temperature.value;
+    updateThermometer(temperature.value);
+});
+
+slider.addEventListener("input", () => {
+    temperature.value = slider.value;
+    updateThermometer(slider.value);
+});
+
+updateThermometer(temperature.value);
+</script>
+
+</body>
+</html>
